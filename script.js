@@ -9,6 +9,14 @@ function saveTasks() {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
+function formatDate(timestamp) {
+  const date = new Date(timestamp);
+  const dia = String(date.getDate()).padStart(2, "0");
+  const mes = String(date.getMonth() + 1).padStart(2, "0");
+  const anio = date.getFullYear();
+  return dia + "/" + mes + "/" + anio;
+}
+
 function toggleComplete(id) {
   tasks = tasks.map(function(task) {
     if (task.id === id) {
@@ -24,7 +32,7 @@ function renderTasks() {
   taskList.innerHTML = "";
   tasks.forEach(function(task) {
     const li = document.createElement("li");
-    li.textContent = task.text;
+    li.textContent = task.text + " (" + formatDate(task.id) + ")";
     li.style.cursor = "pointer";
     if (task.completed) {
       li.style.textDecoration = "line-through";
