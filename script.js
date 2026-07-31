@@ -9,15 +9,30 @@ function saveTasks() {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
+function toggleComplete(id) {
+  tasks = tasks.map(function(task) {
+    if (task.id === id) {
+      task.completed = !task.completed;
+    }
+    return task;
+  });
+  saveTasks();
+  renderTasks();
+}
+
 function renderTasks() {
   taskList.innerHTML = "";
   tasks.forEach(function(task) {
     const li = document.createElement("li");
     li.textContent = task.text;
+    li.style.cursor = "pointer";
     if (task.completed) {
       li.style.textDecoration = "line-through";
       li.style.color = "gray";
     }
+    li.addEventListener("click", function() {
+      toggleComplete(task.id);
+    });
     taskList.appendChild(li);
   });
 }
