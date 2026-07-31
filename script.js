@@ -9,6 +9,19 @@ function saveTasks() {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
+function renderTasks() {
+  taskList.innerHTML = "";
+  tasks.forEach(function(task) {
+    const li = document.createElement("li");
+    li.textContent = task.text;
+    if (task.completed) {
+      li.style.textDecoration = "line-through";
+      li.style.color = "gray";
+    }
+    taskList.appendChild(li);
+  });
+}
+
 function addTask() {
   const text = taskInput.value.trim();
   if (text === "") return;
@@ -21,8 +34,8 @@ function addTask() {
 
   tasks.push(newTask);
   saveTasks();
+  renderTasks();
   taskInput.value = "";
-  console.log("Tarea agregada:", newTask);
 }
 
 addBtn.addEventListener("click", addTask);
@@ -30,5 +43,7 @@ addBtn.addEventListener("click", addTask);
 taskInput.addEventListener("keypress", function(e) {
   if (e.key === "Enter") {
     addTask();
-}
+  }
 });
+
+renderTasks();
